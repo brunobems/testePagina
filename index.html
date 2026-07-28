@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olimpíada de Literatura - Básico</title>
+</head>
+
+<body>
+    <h1>🏆 Olimpíada de Literatura - Os Três Porquinhos</h1>
+    <p>Nível Básico - 20 questões</p>
+    <script>
+        const questoes = [
+            //{ pergunta: 'Quem tinha três porquinhos?', opcoes: ['Uma vaca', 'Uma porca', 'Uma cabra', 'Uma galinha'], correta: 1, explicacao: 'A história começa contando que uma velha porca tinha três porquinhos.' },
+            //{ pergunta: 'Por que os porquinhos saíram de casa?', opcoes: ['Para brincar', 'Para procurar comida e sorte', 'Para passear', 'Para visitar amigos'], correta: 1, explicacao: 'A mãe não tinha comida suficiente e pediu que buscassem a própria sorte.' },
+            {
+                pergunta: 'Quem tinha três porquinhos?',
+                opcoes: ['Uma vaca', 'Uma porca', 'Uma cabra', 'Uma galinha'],
+                correta: 1,
+                explicacao: 'A história começa contando que uma velha porca tinha três porquinhos.'
+            },
+
+            {
+                pergunta: 'Por que os porquinhos saíram de casa?',
+                opcoes: ['Para brincar', 'Para procurar comida e sorte', 'Para passear', 'Para visitar amigos'],
+                correta: 1,
+                explicacao: 'A mãe não tinha comida suficiente e pediu que os filhos buscassem a própria sorte.'
+            },
+
+            {
+                pergunta: 'Do que era feita a casa do primeiro porquinho?',
+                opcoes: ['Tijolos', 'Madeira', 'Palha', 'Pedra'],
+                correta: 2,
+                explicacao: 'O primeiro porquinho recebeu palha para construir sua casa.'
+            },
+
+            {
+                pergunta: 'Quem apareceu depois que a casa de palha ficou pronta?',
+                opcoes: ['Um coelho', 'Um lobo', 'Um urso', 'Uma raposa'],
+                correta: 1,
+                explicacao: 'O lobo apareceu e tentou entrar na casa.'
+            },
+
+            {
+                pergunta: 'O que o lobo pediu ao porquinho?',
+                opcoes: ['Comida', 'Dinheiro', 'Que o deixasse entrar', 'Um presente'],
+                correta: 2,
+                explicacao: 'O lobo batia na porta pedindo para entrar.'
+            },
+
+            {
+                pergunta: 'O que o porquinho respondeu ao lobo?',
+                opcoes: ['Sim', 'Talvez', 'Não', 'Depois'],
+                correta: 2,
+                explicacao: 'O porquinho recusou a entrada do lobo.'
+            },
+
+            {
+                pergunta: 'O que o lobo fez com a casa de palha?',
+                opcoes: ['Pintou', 'Empurrou', 'Soprou e derrubou', 'Escondeu'],
+                correta: 2,
+                explicacao: 'O lobo soprou e bufou até derrubar a casa.'
+            },
+
+            {
+                pergunta: 'Do que era feita a casa do segundo porquinho?',
+                opcoes: ['Galhos secos', 'Tijolos', 'Pedras', 'Palha'],
+                correta: 0,
+                explicacao: 'O segundo porquinho construiu sua casa usando galhos secos.'
+            },
+
+            {
+                pergunta: 'O que aconteceu com a segunda casa?',
+                opcoes: ['Foi derrubada', 'Ficou mais forte', 'Virou castelo', 'Foi vendida'],
+                correta: 0,
+                explicacao: 'A casa de galhos também foi derrubada pelo lobo.'
+            },
+
+            {
+                pergunta: 'Do que era feita a casa do terceiro porquinho?',
+                opcoes: ['Palha', 'Galhos', 'Tijolos', 'Madeira'],
+                correta: 2,
+                explicacao: 'O terceiro porquinho construiu uma casa resistente de tijolos.'
+            },
+
+            {
+                pergunta: 'O lobo conseguiu derrubar a casa de tijolos?',
+                opcoes: ['Sim', 'Não', 'Quase', 'Depois'],
+                correta: 1,
+                explicacao: 'A casa de tijolos era resistente e não caiu.'
+            },
+
+            {
+                pergunta: 'O que o lobo prometeu mostrar ao terceiro porquinho?',
+                opcoes: ['Um lago', 'Um campo de nabos', 'Uma floresta', 'Uma fazenda'],
+                correta: 1,
+                explicacao: 'O lobo falou sobre um campo cheio de nabos.'
+            },
+
+            {
+                pergunta: 'O porquinho foi buscar os nabos antes ou depois do lobo?',
+                opcoes: ['Antes', 'Depois', 'Ao mesmo tempo', 'Nunca foi'],
+                correta: 0,
+                explicacao: 'Ele saiu mais cedo e chegou antes do lobo.'
+            },
+
+            {
+                pergunta: 'Qual fruta apareceu na história?',
+                opcoes: ['Banana', 'Pera', 'Maçã', 'Melancia'],
+                correta: 2,
+                explicacao: 'O lobo contou ao porquinho sobre uma macieira cheia de maçãs.'
+            },
+
+            {
+                pergunta: 'Onde ficava a macieira?',
+                opcoes: ['Jardim Merry', 'Praça Central', 'Mercado', 'Fazenda Smith'],
+                correta: 0,
+                explicacao: 'A macieira ficava no Jardim Merry.'
+            },
+
+            {
+                pergunta: 'O que o porquinho fez para escapar quando estava na macieira?',
+                opcoes: ['Pulou em cima do lobo', 'Jogou uma maçã para longe', 'Escondeu-se atrás da árvore', 'Chamou ajuda'],
+                correta: 1,
+                explicacao: 'Ele jogou uma maçã para longe e aproveitou para fugir.'
+            },
+
+            {
+                pergunta: 'Onde o porquinho foi se divertir?',
+                opcoes: ['No castelo', 'Na feira', 'Na escola', 'No rio'],
+                correta: 1,
+                explicacao: 'O porquinho foi à feira e aproveitou os brinquedos.'
+            },
+
+            {
+                pergunta: 'O que o porquinho comprou na feira?',
+                opcoes: ['Uma bola', 'Um chapéu', 'Uma manteigueira', 'Um livro'],
+                correta: 2,
+                explicacao: 'Ele comprou uma manteigueira como presente para si mesmo.'
+            },
+
+            {
+                pergunta: 'O que aconteceu com a manteigueira?',
+                opcoes: ['Quebrou', 'Afundou', 'Voou', 'Rolou morro abaixo'],
+                correta: 3,
+                explicacao: 'A manteigueira começou a rolar morro abaixo com o porquinho dentro.'
+            },
+
+            {
+                pergunta: 'Por onde o lobo tentou entrar na casa no final da história?',
+                opcoes: ['Janela', 'Porta', 'Chaminé', 'Telhado'],
+                correta: 2,
+                explicacao: 'O lobo desceu pela chaminé, mas caiu em um caldeirão preparado pelo porquinho.'
+            }
+
+
+
+        ];
+        document.write('<form>'); questoes.forEach((q, i) => { document.write('<h3>' + (i + 1) + '. ' + q.pergunta + '</h3>'); q.opcoes.forEach((o, j) => document.write('<label><input type=radio name=q' + i + ' value=' + j + '>' + o + '</label><br>')); document.write('<div id=e' + i + '></div><hr>'); }); document.write('</form><button onclick="corrigir()">Finalizar basico</button><div id=res></div>'); function corrigir() { let p = 0; questoes.forEach((q, i) => { let r = document.querySelector('input[name=q' + i + ']:checked'); let e = document.getElementById('e' + i); if (r && +r.value === q.correta) { p++; e.innerHTML = '✅ ' + q.explicacao } else { e.innerHTML = '❌ ' + q.explicacao } }); document.getElementById('res').innerHTML = 'Acertos: ' + p + '/' + questoes.length; }
+    </script>
+
+    
+
+
+
+</body>
+
+</html>
