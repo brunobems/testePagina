@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olimpíada de Literatura -  Enquanto Ana Espera</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f5f5f5;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    color:#8b0000;
+}
+
+.questao{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.questao h3{
+    margin-top:0;
+}
+
+label{
+    display:block;
+    padding:6px 0;
+    cursor:pointer;
+}
+
+.feedback{
+    margin-top:12px;
+    padding:10px;
+    border-radius:6px;
+    display:none;
+}
+
+.correta{
+    background:#d4edda;
+    color:#155724;
+}
+
+.errada{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    font-size:18px;
+    font-weight:bold;
+    background:#8b0000;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#a70000;
+}
+
+#resultado{
+    margin-top:30px;
+    padding:20px;
+    background:white;
+    border-radius:10px;
+    display:none;
+}
+
+.progress{
+    width:100%;
+    height:25px;
+    background:#ddd;
+    border-radius:15px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.bar{
+    height:100%;
+    width:0%;
+    background:#28a745;
+    transition:.5s;
+}
+
+.medalha{
+    font-size:28px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🏆 Olimpíada de Literatura<br> Enquanto Ana Espera</h1>
+
+<div class="progress">
+<div class="bar" id="barra"></div>
+</div>
+
+<div id="quiz"></div>
+
+<button onclick="corrigir()">Concluir Prova</button>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+
+ const perguntas = [
+
+{
+ pergunta:"O que Ana ainda não possuía, apesar de ter muitas coisas em sua vida?",
+ alternativas:[
+  "Uma nova toca",
+  "O famoso fruto da Grande Árvore",
+  "Uma mochila",
+  "Uma família",
+  "Livros para ler"
+ ],
+ correta:1,
+ explicacao:"Ana tinha família, livros, diversão e comida, mas ainda não havia experimentado o famoso fruto da Grande Árvore."
+},
+
+{
+ pergunta:"Por que Ana decidiu procurar a Grande Árvore?",
+ alternativas:[
+  "Queria encontrar um amigo",
+  "Precisava fugir da floresta",
+  "Desejava experimentar o fruto tão elogiado pelos animais",
+  "Queria construir uma casa",
+  "Estava perdida"
+ ],
+ correta:2,
+ explicacao:"As descrições maravilhosas dos outros animais despertaram sua curiosidade."
+},
+
+{
+ pergunta:"Como estava o caminho durante a primeira viagem de Ana?",
+ alternativas:[
+  "Cheio de flores",
+  "Coberto de neve",
+  "Com muito vento e folhas caindo",
+  "Seco e quente",
+  "Cheio de frutas maduras"
+ ],
+ correta:2,
+ explicacao:"O livro descreve fortes ventos e muitas folhas espalhadas pelo caminho."
+},
+
+{
+ pergunta:"Qual foi a primeira reação de Ana ao chegar à Grande Árvore?",
+ alternativas:[
+  "Alegria",
+  "Surpresa positiva",
+  "Orgulho",
+  "Irritação e decepção",
+  "Medo"
+ ],
+ correta:3,
+ explicacao:"Ana ficou decepcionada porque não encontrou o fruto que imaginava."
+},
+
+{
+ pergunta:"Quem conversou com Ana quando ela chegou à árvore pela primeira vez?",
+ alternativas:[
+  "Um esquilo",
+  "Uma coruja",
+  "Um cervo",
+  "Um coelho",
+  "O pássaro Eliseu"
+ ],
+ correta:4,
+ explicacao:"Eliseu foi o personagem que passou a orientá-la durante a história."
+},
+
+{
+ pergunta:"Segundo Eliseu, por que Ana não encontrava o fruto pronto?",
+ alternativas:[
+  "Porque ele tinha caído",
+  "Porque os animais o comeram",
+  "Porque ainda era muito pequeno",
+  "Porque estava escondido",
+  "Porque havia desaparecido"
+ ],
+ correta:2,
+ explicacao:"Eliseu explicou que o fruto existia, mas ainda estava crescendo."
+},
+
+{
+ pergunta:"O que Eliseu sugeriu que Ana observasse?",
+ alternativas:[
+  "Somente o fruto",
+  "As pegadas dos animais",
+  "As montanhas",
+  "As outras coisas bonitas ao seu redor",
+  "Os rios"
+ ],
+ correta:3,
+ explicacao:"Ele ensinou Ana a valorizar o presente e tudo o que já existia ao seu redor."
+},
+
+{
+ pergunta:"O que Ana percebeu depois de prestar atenção ao ambiente?",
+ alternativas:[
+  "Que estava perdida",
+  "Que Eliseu tinha razão e o dia estava lindo",
+  "Que o fruto havia amadurecido",
+  "Que precisava voltar para casa",
+  "Que a árvore estava morrendo"
+ ],
+ correta:1,
+ explicacao:"Ela percebeu a beleza da paisagem que antes ignorava."
+},
+
+{
+ pergunta:"Mesmo admirando a paisagem, Ana voltou para casa sentindo-se:",
+ alternativas:[
+  "Confusa",
+  "Empolgada",
+  "Desapontada",
+  "Orgulhosa",
+  "Descansada"
+ ],
+ correta:2,
+ explicacao:"Ela ainda estava frustrada por não conseguir o fruto."
+},
+
+{
+ pergunta:"O que Ana encontrou quando voltou à Grande Árvore no inverno?",
+ alternativas:[
+  "Um fruto maduro",
+  "A árvore florida",
+  "A árvore coberta de neve e um fruto pequeno",
+  "Muitos animais reunidos",
+  "Uma nova trilha"
+ ],
+ correta:2,
+ explicacao:"Nessa visita a paisagem estava tomada pela neve."
+},
+
+{
+ pergunta:"O que aconteceu quando Ana mordeu o fruto antes da hora?",
+ alternativas:[
+  "Achou delicioso",
+  "Nada aconteceu",
+  "O fruto desapareceu",
+  "Machucou o dente e sentiu gosto ruim",
+  "Ficou doente"
+ ],
+ correta:3,
+ explicacao:"O fruto ainda não estava pronto e tinha um sabor desagradável."
+},
+
+{
+ pergunta:"O gosto ruim do fruto acontecia porque:",
+ alternativas:[
+  "Estava estragado",
+  "Estava congelado",
+  "Ainda não estava maduro",
+  "Foi atacado por insetos",
+  "Era venenoso"
+ ],
+ correta:2,
+ explicacao:"Eliseu explicou que o tempo do fruto ainda não havia chegado."
+},
+
+{
+ pergunta:"Qual bebida Eliseu sugeriu para aquele dia frio?",
+ alternativas:[
+  "Suco de frutas",
+  "Chá gelado",
+  "Leite",
+  "Chocolate quente",
+  "Café"
+ ],
+ correta:3,
+ explicacao:"Ele mostrou que cada momento possui alegrias próprias."
+},
+
+{
+ pergunta:"Mesmo depois do chocolate quente, Ana continuou pensando em quê?",
+ alternativas:[
+  "Na neve",
+  "No fruto amadurecido",
+  "Na sua toca",
+  "Nos livros",
+  "Nos animais da floresta"
+ ],
+ correta:1,
+ explicacao:"Ana permanecia ansiosa para experimentar o fruto."
+},
+
+{
+ pergunta:"O que Ana encontrou na estação seguinte?",
+ alternativas:[
+  "Folhas secas",
+  "Muita neve",
+  "Flores coloridas e cheirosas",
+  "Tempestades",
+  "Uma nova árvore"
+ ],
+ correta:2,
+ explicacao:"A chegada da nova estação transformou completamente a paisagem."
+},
+
+{
+ pergunta:"Quando o fruto estava maior, mas ainda verde, Eliseu disse que:",
+ alternativas:[
+  "Não haveria fruto naquele ano",
+  "A espera ainda valeria a pena",
+  "Ela deveria desistir",
+  "O fruto nunca amadureceria",
+  "Outro animal o colheria"
+ ],
+ correta:1,
+ explicacao:"Eliseu reforçou sua mensagem sobre paciência."
+},
+
+{
+ pergunta:"O que Ana e Eliseu fizeram juntos naquela tarde?",
+ alternativas:[
+  "Dormiram",
+  "Viajaram para outra floresta",
+  "Procuraram uma nova árvore",
+  "Aproveitaram a companhia e observaram as flores",
+  "Construíram uma casa"
+ ],
+ correta:3,
+ explicacao:"A amizade começou a se tornar mais importante para Ana."
+},
+
+{
+ pergunta:"O que aconteceu com Ana durante esse encontro?",
+ alternativas:[
+  "Ela desistiu do fruto",
+  "Ela esqueceu o caminho",
+  "Por um momento esqueceu até do fruto",
+  "Ficou zangada",
+  "Voltou para casa imediatamente"
+ ],
+ correta:2,
+ explicacao:"A companhia de Eliseu a fez aproveitar o presente."
+},
+
+{
+ pergunta:"Mais tarde, Ana passou a ficar animada para visitar a Grande Árvore principalmente porque:",
+ alternativas:[
+  "Queria colher muitos frutos",
+  "Desejava encontrar Eliseu",
+  "Gostava de correr",
+  "Queria brincar na neve",
+  "Precisava levar comida"
+ ],
+ correta:1,
+ explicacao:"A amizade com Eliseu passou a ter mais valor que o próprio fruto."
+},
+
+{
+ pergunta:"Qual foi a principal transformação ocorrida em Ana ao longo da história?",
+ alternativas:[
+  "Aprendeu a voar",
+  "Ficou mais rica",
+  "Mudou de floresta",
+  "Aprendeu paciência e a valorizar amizades",
+  "Deixou de gostar de frutos"
+ ],
+ correta:3,
+ explicacao:"A mensagem central do livro é o amadurecimento de Ana através da espera."
+},{
+ pergunta:"O comportamento inicial de Ana demonstra principalmente:",
+ alternativas:[
+  "Gratidão",
+  "Paciência",
+  "Ansiedade para conseguir algo desejado",
+  "Generosidade",
+  "Coragem"
+ ],
+ correta:2,
+ explicacao:"No início da história, Ana está muito focada em obter rapidamente o fruto que tanto deseja."
+},
+
+{
+ pergunta:"Por que as folhas caídas incomodavam Ana no começo da história?",
+ alternativas:[
+  "Porque escondiam o fruto",
+  "Porque ela ainda não conseguia perceber a beleza do caminho",
+  "Porque causavam frio",
+  "Porque eram perigosas",
+  "Porque estavam molhadas"
+ ],
+ correta:1,
+ explicacao:"Inicialmente, Ana enxergava apenas os obstáculos e não os aspectos positivos ao seu redor."
+},
+
+{
+ pergunta:"O conselho de Eliseu ajuda Ana a desenvolver qual virtude?",
+ alternativas:[
+  "Orgulho",
+  "Competição",
+  "Paciência",
+  "Ambição",
+  "Teimosia"
+ ],
+ correta:2,
+ explicacao:"Toda a mensagem central da história gira em torno do aprendizado da paciência."
+},
+
+{
+ pergunta:"Quando Ana observa a floresta com mais atenção, ela aprende que:",
+ alternativas:[
+  "O fruto é a única coisa importante",
+  "Existem coisas boas enquanto se espera",
+  "Os animais estavam errados",
+  "A árvore era comum",
+  "Precisava voltar para casa"
+ ],
+ correta:1,
+ explicacao:"Ela começa a perceber que há beleza e aprendizado durante o processo de espera."
+},
+
+{
+ pergunta:"A mudança das estações ao longo da história simboliza:",
+ alternativas:[
+  "A passagem do tempo",
+  "A mudança de floresta",
+  "O crescimento de Eliseu",
+  "O desaparecimento dos animais",
+  "A construção da árvore"
+ ],
+ correta:0,
+ explicacao:"As estações representam a passagem do tempo necessária para o amadurecimento do fruto."
+},
+
+{
+ pergunta:"O inverno ensina Ana que:",
+ alternativas:[
+  "Todos os dias são iguais",
+  "É preciso aproveitar cada momento",
+  "O fruto nunca amadurece",
+  "A floresta é perigosa",
+  "As amizades são desnecessárias"
+ ],
+ correta:1,
+ explicacao:"Mesmo sem o fruto pronto, ela pode desfrutar das coisas boas daquele período."
+},
+
+{
+ pergunta:"Ao morder o fruto verde, Ana aprende que:",
+ alternativas:[
+  "A insistência sempre resolve",
+  "Algumas coisas não podem ser apressadas",
+  "Os frutos não são saborosos",
+  "A floresta está errada",
+  "Eliseu estava enganado"
+ ],
+ correta:1,
+ explicacao:"Ela percebe na prática que existe o momento certo para determinadas conquistas."
+},
+
+{
+ pergunta:"A atitude de Ana ao voltar várias vezes à árvore mostra:",
+ alternativas:[
+  "Determinação",
+  "Preguiça",
+  "Medo",
+  "Indiferença",
+  "Vaidade"
+ ],
+ correta:0,
+ explicacao:"Mesmo frustrada algumas vezes, Ana não desiste de seu objetivo."
+},
+
+{
+ pergunta:"Por que Eliseu nunca entrega simplesmente o fruto para Ana?",
+ alternativas:[
+  "Porque não consegue alcançá-lo",
+  "Porque deseja que Ana aprenda durante a espera",
+  "Porque não gosta dela",
+  "Porque o fruto não existe",
+  "Porque a árvore proíbe"
+ ],
+ correta:1,
+ explicacao:"O aprendizado era tão importante quanto conquistar o fruto."
+},
+
+{
+ pergunta:"Qual característica melhor descreve Eliseu?",
+ alternativas:[
+  "Impulsivo",
+  "Desatento",
+  "Sábio e paciente",
+  "Ganancioso",
+  "Medroso"
+ ],
+ correta:2,
+ explicacao:"Eliseu sempre oferece orientação cheia de sabedoria."
+},
+
+{
+ pergunta:"Quando Ana passa a enxergar o caminho de forma diferente, isso indica que:",
+ alternativas:[
+  "A floresta mudou completamente",
+  "Sua maneira de enxergar as coisas mudou",
+  "Ela estava perdida",
+  "O fruto desapareceu",
+  "Eliseu transformou a floresta"
+ ],
+ correta:1,
+ explicacao:"A principal transformação aconteceu dentro da própria Ana."
+},
+
+{
+ pergunta:"A amizade entre Ana e Eliseu surgiu porque:",
+ alternativas:[
+  "Precisavam trabalhar juntos",
+  "Compartilharam tempo e experiências",
+  "Moravam na mesma toca",
+  "Tinham a mesma idade",
+  "A árvore obrigou"
+ ],
+ correta:1,
+ explicacao:"A convivência durante o período de espera fortaleceu a amizade."
+},
+
+{
+ pergunta:"O fruto pode representar simbolicamente:",
+ alternativas:[
+  "Uma conquista importante",
+  "Uma ameaça",
+  "Uma armadilha",
+  "Uma viagem",
+  "Um segredo"
+ ],
+ correta:0,
+ explicacao:"O fruto simboliza sonhos e objetivos que exigem tempo para serem alcançados."
+},
+
+{
+ pergunta:"A expressão 'valeu a pena esperar' resume:",
+ alternativas:[
+  "Um arrependimento",
+  "Uma perda",
+  "Uma lição sobre paciência",
+  "Um acidente",
+  "Uma despedida"
+ ],
+ correta:2,
+ explicacao:"A frase sintetiza a principal mensagem do livro."
+},
+
+{
+ pergunta:"Se Ana tivesse desistido após a primeira visita, ela provavelmente não teria:",
+ alternativas:[
+  "Conhecido Eliseu",
+  "Voltado para casa",
+  "Encontrado a árvore",
+  "Visto folhas",
+  "Encontrado outros animais"
+ ],
+ correta:0,
+ explicacao:"A amizade foi fruto da persistência e da convivência ao longo do tempo."
+},
+
+{
+ pergunta:"O que mais contribuiu para o amadurecimento de Ana?",
+ alternativas:[
+  "A sorte",
+  "O tempo somado aos ensinamentos recebidos",
+  "A velocidade",
+  "A riqueza",
+  "A força física"
+ ],
+ correta:1,
+ explicacao:"A combinação entre experiência e orientação transformou Ana."
+},
+
+{
+ pergunta:"Ao final da história, o fruto se torna menos importante porque:",
+ alternativas:[
+  "Estava estragado",
+  "Ana descobriu coisas mais valiosas",
+  "A árvore desapareceu",
+  "Surgiram frutos melhores",
+  "Eliseu jogou o fruto fora"
+ ],
+ correta:1,
+ explicacao:"A amizade e os aprendizados passaram a ter mais significado."
+},
+
+{
+ pergunta:"A felicidade de Ana ao visitar Eliseu mostra que:",
+ alternativas:[
+  "As amizades verdadeiras têm valor especial",
+  "Ela esqueceu completamente o fruto",
+  "Ela queria outro presente",
+  "Ela estava com fome",
+  "Ela pretendia partir"
+ ],
+ correta:0,
+ explicacao:"O relacionamento construído durante a história tornou-se muito importante."
+},
+
+{
+ pergunta:"Qual frase melhor resume a mensagem do livro?",
+ alternativas:[
+  "Quem corre chega primeiro",
+  "Os sonhos devem ser abandonados",
+  "Esperar pode trazer recompensas e aprendizado",
+  "É melhor viver sozinho",
+  "A floresta é perigosa"
+ ],
+ correta:2,
+ explicacao:"A obra destaca a importância da paciência e do crescimento durante a espera."
+},
+
+{
+ pergunta:"A maior recompensa recebida por Ana foi:",
+ alternativas:[
+  "O fruto maduro",
+  "A paisagem bonita",
+  "O chocolate quente",
+  "A amizade de Eliseu e o aprendizado adquirido",
+  "A Grande Árvore"
+ ],
+ correta:3,
+ explicacao:"O livro conclui que o maior presente não foi o fruto, mas a amizade e a transformação pessoal."
+},{
+ pergunta:"O fato de Ana retornar várias vezes à Grande Árvore mostra que ela era:",
+ alternativas:[
+  "Persistente",
+  "Distraída",
+  "Preguiçosa",
+  "Desobediente",
+  "Arrogante"
+ ],
+ correta:0,
+ explicacao:"Apesar das frustrações, Ana continuou perseguindo seu objetivo."
+},
+
+{
+ pergunta:"No início da história, Ana valorizava mais:",
+ alternativas:[
+  "A amizade",
+  "O aprendizado",
+  "O resultado final",
+  "A natureza",
+  "A convivência"
+ ],
+ correta:2,
+ explicacao:"Ela estava concentrada em conseguir o fruto o mais rápido possível."
+},
+
+{
+ pergunta:"Ao longo da história, Ana aprende que o mais importante nem sempre é:",
+ alternativas:[
+  "O caminho",
+  "A amizade",
+  "A espera",
+  "O resultado",
+  "A natureza"
+ ],
+ correta:3,
+ explicacao:"A jornada e os aprendizados podem ser tão valiosos quanto a conquista."
+},
+
+{
+ pergunta:"A fala constante de Eliseu sobre esperar o momento certo demonstra:",
+ alternativas:[
+  "Sabedoria",
+  "Medo",
+  "Tristeza",
+  "Vaidade",
+  "Desinteresse"
+ ],
+ correta:0,
+ explicacao:"Eliseu compreendia que algumas conquistas exigem tempo."
+},
+
+{
+ pergunta:"Qual característica Ana desenvolveu mais ao final da história?",
+ alternativas:[
+  "Impaciência",
+  "Orgulho",
+  "Maturidade",
+  "Competitividade",
+  "Timidez"
+ ],
+ correta:2,
+ explicacao:"Ana amadurece emocionalmente durante a espera."
+},
+
+{
+ pergunta:"A amizade com Eliseu nasceu principalmente por causa:",
+ alternativas:[
+  "Do fruto",
+  "Da convivência",
+  "Da competição",
+  "Da necessidade",
+  "Da sorte"
+ ],
+ correta:1,
+ explicacao:"As conversas e encontros frequentes criaram um vínculo entre eles."
+},
+
+{
+ pergunta:"O que mudou primeiro: o fruto ou Ana?",
+ alternativas:[
+  "O fruto",
+  "Ana",
+  "Os dois ao mesmo tempo",
+  "Nenhum dos dois",
+  "A floresta"
+ ],
+ correta:1,
+ explicacao:"Antes mesmo do fruto amadurecer, Ana já estava passando por transformações."
+},
+
+{
+ pergunta:"Se Eliseu tivesse apenas entregado respostas prontas, Ana provavelmente:",
+ alternativas:[
+  "Aprenderia menos",
+  "Aprenderia mais",
+  "Mudaria de floresta",
+  "Não voltaria para casa",
+  "Encontraria outro fruto"
+ ],
+ correta:0,
+ explicacao:"O aprendizado surgiu justamente da experiência vivida pela personagem."
+},
+
+{
+ pergunta:"A Grande Árvore pode simbolizar:",
+ alternativas:[
+  "Um desafio importante da vida",
+  "Uma casa",
+  "Uma escola",
+  "Uma viagem",
+  "Uma competição"
+ ],
+ correta:0,
+ explicacao:"Ela representa objetivos que exigem crescimento e paciência."
+},
+
+{
+ pergunta:"O amadurecimento do fruto acompanha:",
+ alternativas:[
+  "A mudança das estações",
+  "A mudança de floresta",
+  "A chegada dos animais",
+  "A construção da toca",
+  "O crescimento da neve"
+ ],
+ correta:0,
+ explicacao:"O ciclo natural acompanha a evolução da história."
+},
+
+{
+ pergunta:"A principal diferença entre Ana do início e Ana do final é que:",
+ alternativas:[
+  "Ela ficou mais rápida",
+  "Ela ficou mais rica",
+  "Ela passou a valorizar o processo",
+  "Ela mudou de casa",
+  "Ela abandonou seus sonhos"
+ ],
+ correta:2,
+ explicacao:"A personagem aprende a apreciar a jornada."
+},
+
+{
+ pergunta:"Quando Ana observa as flores e a paisagem, o livro sugere que:",
+ alternativas:[
+  "Devemos viver apenas no futuro",
+  "Devemos prestar atenção ao presente",
+  "Devemos ignorar nossos sonhos",
+  "A natureza não importa",
+  "As amizades são secundárias"
+ ],
+ correta:1,
+ explicacao:"A história incentiva a valorização do momento presente."
+},
+
+{
+ pergunta:"O comportamento de Eliseu demonstra que ele:",
+ alternativas:[
+  "Gostava de dar ordens",
+  "Era paciente e acolhedor",
+  "Era competitivo",
+  "Era distraído",
+  "Era egoísta"
+ ],
+ correta:1,
+ explicacao:"Eliseu orienta Ana com calma durante toda a história."
+},
+
+{
+ pergunta:"Qual ensinamento Ana leva para sua vida?",
+ alternativas:[
+  "Tudo acontece imediatamente",
+  "A espera pode trazer crescimento",
+  "Os sonhos são ilusões",
+  "A amizade atrapalha",
+  "É melhor desistir cedo"
+ ],
+ correta:1,
+ explicacao:"A história mostra que crescer faz parte da espera."
+},
+
+{
+ pergunta:"O fruto amadurecido representa:",
+ alternativas:[
+  "O fim de uma amizade",
+  "Uma recompensa conquistada no tempo certo",
+  "Uma surpresa desagradável",
+  "Uma mudança de floresta",
+  "Uma despedida"
+ ],
+ correta:1,
+ explicacao:"A conquista chega quando o momento está adequado."
+},
+
+{
+ pergunta:"Ao lembrar das conversas com Eliseu, o leitor percebe que:",
+ alternativas:[
+  "Os conselhos faziam sentido",
+  "Eliseu estava errado",
+  "Nada mudou",
+  "Ana esqueceu tudo",
+  "O fruto era irrelevante"
+ ],
+ correta:0,
+ explicacao:"Os ensinamentos se confirmam ao longo da narrativa."
+},
+
+{
+ pergunta:"A história sugere que amizades verdadeiras:",
+ alternativas:[
+  "Surgem apenas por acaso",
+  "Precisam de tempo para crescer",
+  "Não exigem convivência",
+  "São menos importantes que conquistas",
+  "Acontecem rapidamente"
+ ],
+ correta:1,
+ explicacao:"A amizade entre Ana e Eliseu foi construída gradualmente."
+},
+
+{
+ pergunta:"Qual destas palavras resume melhor a jornada de Ana?",
+ alternativas:[
+  "Pressa",
+  "Impulsividade",
+  "Ansiedade",
+  "Transformação",
+  "Teimosia"
+ ],
+ correta:3,
+ explicacao:"O foco do livro é a transformação interna da personagem."
+},
+
+{
+ pergunta:"Se Ana não tivesse ouvido Eliseu, provavelmente:",
+ alternativas:[
+  "Continuaria frustrada por mais tempo",
+  "Encontraria outro fruto",
+  "Mudaria de floresta",
+  "Esqueceria o fruto",
+  "Viraria pássaro"
+ ],
+ correta:0,
+ explicacao:"Os conselhos foram fundamentais para sua mudança de perspectiva."
+},
+
+{
+ pergunta:"O verdadeiro prêmio encontrado por Ana foi:",
+ alternativas:[
+  "A árvore",
+  "O chocolate quente",
+  "A amizade e o amadurecimento",
+  "A neve",
+  "As flores"
+ ],
+ correta:2,
+ explicacao:"O fruto foi importante, mas os maiores ganhos foram emocionais e pessoais."
+},
+
+// VERDADEIRO OU FALSO
+
+{
+ pergunta:"A história ensina que algumas conquistas exigem espera e paciência.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:0,
+ explicacao:"Essa é uma das mensagens centrais do livro."
+},
+
+{
+ pergunta:"Ana encontrou o fruto maduro logo em sua primeira visita.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:1,
+ explicacao:"O fruto ainda estava crescendo."
+},
+
+{
+ pergunta:"Eliseu ajudou Ana a observar melhor o que acontecia ao seu redor.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:0,
+ explicacao:"Ele incentivou Ana a valorizar a natureza e o presente."
+},
+
+{
+ pergunta:"Ana desistiu de visitar a Grande Árvore após o inverno.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:1,
+ explicacao:"Ela continuou retornando."
+},
+
+{
+ pergunta:"A amizade entre Ana e Eliseu cresceu durante o período de espera.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:0,
+ explicacao:"A convivência fortaleceu a amizade."
+},
+
+{
+ pergunta:"O fruto estava delicioso quando Ana o experimentou verde.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:1,
+ explicacao:"O fruto tinha gosto desagradável porque ainda não estava maduro."
+},
+
+{
+ pergunta:"As diferentes estações ajudam a mostrar a passagem do tempo.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:0,
+ explicacao:"Elas marcam a evolução da história."
+},
+
+{
+ pergunta:"Ao final da história, Ana aprende a valorizar mais do que apenas o fruto.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:0,
+ explicacao:"Ela passa a valorizar amizades, experiências e aprendizados."
+},
+
+{
+ pergunta:"A principal mensagem da história é que devemos conseguir tudo rapidamente.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:1,
+ explicacao:"A história ensina justamente o contrário."
+},
+
+{
+ pergunta:"A transformação de Ana acontece tanto por causa da espera quanto pelas experiências vividas no caminho.",
+ alternativas:["Verdadeiro","Falso"],
+ correta:0,
+ explicacao:"A jornada é responsável pelo amadurecimento da personagem."
+},{
+ pergunta:"A insistência de Ana em voltar à Grande Árvore demonstra que os sonhos importantes:",
+ alternativas:[
+  "Devem ser abandonados rapidamente",
+  "Exigem dedicação e perseverança",
+  "São impossíveis de alcançar",
+  "Dependem apenas da sorte",
+  "Precisam ser esquecidos"
+ ],
+ correta:1,
+ explicacao:"Ana continua retornando porque acredita em seu objetivo, demonstrando perseverança."
+},
+
+{
+ pergunta:"Por que a presença de Eliseu é importante para a narrativa?",
+ alternativas:[
+  "Porque ele entrega o fruto",
+  "Porque representa orientação e sabedoria",
+  "Porque protege a árvore",
+  "Porque conhece todos os animais",
+  "Porque mora na árvore"
+ ],
+ correta:1,
+ explicacao:"Eliseu funciona como um guia que ajuda Ana a amadurecer."
+},
+
+{
+ pergunta:"O que Ana aprende ao observar as mudanças na floresta?",
+ alternativas:[
+  "Que nada muda",
+  "Que cada fase possui sua própria beleza",
+  "Que o inverno é melhor",
+  "Que o fruto perdeu importância",
+  "Que a árvore é mágica"
+ ],
+ correta:1,
+ explicacao:"A observação da natureza ensina Ana a valorizar cada momento."
+},
+
+{
+ pergunta:"O fato de Ana voltar mesmo após decepções sugere que ela:",
+ alternativas:[
+  "Tem dificuldade em aprender",
+  "Está determinada a alcançar seu objetivo",
+  "Não gosta da floresta",
+  "Age sem pensar",
+  "Tem medo de Eliseu"
+ ],
+ correta:1,
+ explicacao:"A persistência é uma característica marcante da personagem."
+},
+
+{
+ pergunta:"A ansiedade de Ana no início da história faz com que ela:",
+ alternativas:[
+  "Perceba melhor a natureza",
+  "Ignore muitas coisas boas ao seu redor",
+  "Faça mais amigos",
+  "Aprenda rapidamente",
+  "Ajude outros animais"
+ ],
+ correta:1,
+ explicacao:"Sua atenção estava totalmente voltada para o fruto."
+},
+
+{
+ pergunta:"Quando Ana passa a gostar das visitas à árvore, isso acontece principalmente porque:",
+ alternativas:[
+  "O fruto amadureceu",
+  "Ela passou a apreciar também a companhia de Eliseu",
+  "A caminhada ficou menor",
+  "Outros animais apareceram",
+  "Ela encontrou mais frutos"
+ ],
+ correta:1,
+ explicacao:"A amizade construída ao longo do tempo tornou-se especial."
+},
+
+{
+ pergunta:"O amadurecimento do fruto acontece paralelamente ao amadurecimento de:",
+ alternativas:[
+  "Eliseu",
+  "A floresta",
+  "Ana",
+  "Os animais",
+  "A árvore"
+ ],
+ correta:2,
+ explicacao:"A evolução de Ana acompanha a evolução do fruto."
+},
+
+{
+ pergunta:"Se a história tivesse terminado antes do fruto amadurecer, a principal lição ainda seria:",
+ alternativas:[
+  "A importância da espera",
+  "A velocidade das conquistas",
+  "O perigo da floresta",
+  "O valor da competição",
+  "A necessidade de mudar"
+ ],
+ correta:0,
+ explicacao:"A mensagem central está ligada ao aprendizado durante a espera."
+},
+
+{
+ pergunta:"Qual palavra descreve melhor Eliseu?",
+ alternativas:[
+  "Impulsivo",
+  "Ansioso",
+  "Sábio",
+  "Esquecido",
+  "Desconfiado"
+ ],
+ correta:2,
+ explicacao:"Os conselhos de Eliseu revelam sua sabedoria."
+},
+
+{
+ pergunta:"O fruto verde representa:",
+ alternativas:[
+  "Algo conquistado cedo demais",
+  "Uma recompensa perfeita",
+  "O final da história",
+  "A amizade",
+  "A floresta"
+ ],
+ correta:0,
+ explicacao:"Quando colhemos algo antes do tempo, o resultado pode não ser satisfatório."
+},
+
+{
+ pergunta:"A amizade entre Ana e Eliseu mostra que:",
+ alternativas:[
+  "As amizades surgem apenas com interesses",
+  "O tempo pode fortalecer os laços",
+  "Os amigos sempre concordam",
+  "As amizades substituem os sonhos",
+  "É melhor ficar sozinho"
+ ],
+ correta:1,
+ explicacao:"A convivência constante fortaleceu a amizade."
+},
+
+{
+ pergunta:"Qual destas afirmações melhor representa a evolução de Ana?",
+ alternativas:[
+  "Ela mudou apenas por fora",
+  "Ela aprendeu apenas sobre frutos",
+  "Ela cresceu emocionalmente",
+  "Ela ficou mais rica",
+  "Ela ficou mais rápida"
+ ],
+ correta:2,
+ explicacao:"O principal crescimento da personagem é interno."
+},
+
+{
+ pergunta:"A Grande Árvore é importante porque:",
+ alternativas:[
+  "Marca o local dos encontros e aprendizados",
+  "Produz muitos frutos diferentes",
+  "É a casa de Ana",
+  "Fica perto da toca",
+  "Protege a floresta"
+ ],
+ correta:0,
+ explicacao:"É o cenário central onde acontecem os principais acontecimentos."
+},
+
+{
+ pergunta:"O comportamento de Ana no final da história demonstra:",
+ alternativas:[
+  "Mais paciência do que antes",
+  "Mais ansiedade do que antes",
+  "Mais irritação",
+  "Menos maturidade",
+  "Menos confiança"
+ ],
+ correta:0,
+ explicacao:"Ana aprendeu a esperar e a aproveitar melhor cada fase."
+},
+
+{
+ pergunta:"A principal função das estações do ano no livro é:",
+ alternativas:[
+  "Mostrar a passagem do tempo",
+  "Explicar a geografia",
+  "Apresentar novos personagens",
+  "Criar perigo",
+  "Esconder o fruto"
+ ],
+ correta:0,
+ explicacao:"As estações ajudam o leitor a perceber a passagem do tempo."
+},
+
+{
+ pergunta:"Qual foi a maior mudança na forma de pensar de Ana?",
+ alternativas:[
+  "Passou a gostar menos de frutos",
+  "Passou a valorizar apenas o destino",
+  "Passou a valorizar a jornada",
+  "Passou a evitar amigos",
+  "Passou a evitar a floresta"
+ ],
+ correta:2,
+ explicacao:"Ao final, a caminhada e os aprendizados ganharam mais significado."
+},
+
+{
+ pergunta:"O livro sugere que alcançar objetivos exige:",
+ alternativas:[
+  "Somente sorte",
+  "Paciência e persistência",
+  "Velocidade",
+  "Ajuda constante",
+  "Riqueza"
+ ],
+ correta:1,
+ explicacao:"Ana conquista seu objetivo porque não desiste e aprende a esperar."
+},
+
+{
+ pergunta:"A relação entre Ana e Eliseu evolui de:",
+ alternativas:[
+  "Desconhecimento para amizade",
+  "Amizade para rivalidade",
+  "Rivalidade para amizade",
+  "Indiferença para medo",
+  "Amizade para afastamento"
+ ],
+ correta:0,
+ explicacao:"Os dois se conhecem e desenvolvem uma amizade verdadeira."
+},
+
+{
+ pergunta:"A história incentiva o leitor a:",
+ alternativas:[
+  "Ignorar os pequenos momentos",
+  "Viver apenas pensando no futuro",
+  "Aproveitar o presente enquanto busca seus objetivos",
+  "Desistir das dificuldades",
+  "Evitar mudanças"
+ ],
+ correta:2,
+ explicacao:"A mensagem principal combina sonho, paciência e valorização do presente."
+},
+
+{
+ pergunta:"Ao terminar a leitura, o leitor pode concluir que:",
+ alternativas:[
+  "A recompensa mais importante nem sempre é material",
+  "Apenas os frutos importam",
+  "Esperar é sempre ruim",
+  "As amizades não são necessárias",
+  "Os sonhos não valem a pena"
+ ],
+ correta:0,
+ explicacao:"A amizade, o aprendizado e a transformação pessoal tornam-se a verdadeira recompensa."
+}	 
+
+];
+ 
+
+const quiz = document.getElementById("quiz");
+
+perguntas.forEach((q,index)=>{
+
+
+
+let html = `
+<div class="questao">
+<h3>Questão ${index+1}</h3>
+<p>${q.pergunta}</p>
+`;
+
+q.alternativas.forEach((alt,i)=>{
+html += `
+<label>
+<input type="radio" name="q${index}" value="${i}">
+${String.fromCharCode(65+i)}) ${alt}
+</label>`;
+});
+
+html += `
+<div id="fb${index}" class="feedback"></div>
+</div>
+`;
+
+quiz.innerHTML += html;
+
+});
+
+function corrigir(){
+
+let acertos = 0;
+
+perguntas.forEach((q,index)=>{
+
+
+
+const resposta =
+document.querySelector(`input[name="q${index}"]:checked`);
+
+const fb =
+document.getElementById(`fb${index}`);
+
+if(resposta){
+
+if(Number(resposta.value) === q.correta){
+
+acertos++;
+
+fb.className="feedback correta";
+
+fb.innerHTML=
+`✅ Correta!<br><br>${q.explicacao}`;
+
+}else{
+
+fb.className="feedback errada";
+
+fb.innerHTML=
+`❌ Resposta correta:
+<b>${String.fromCharCode(65+q.correta)}) ${q.alternativas[q.correta]}</b>
+<br><br>${q.explicacao}`;
+
+}
+
+}else{
+
+fb.className="feedback errada";
+
+fb.innerHTML=
+`❌ Questão não respondida.<br>
+Resposta correta:
+<b>${String.fromCharCode(65+q.correta)}) ${q.alternativas[q.correta]}</b>
+<br><br>${q.explicacao}`;
+}
+
+fb.style.display="block";
+
+});
+
+const percentual =
+((acertos/perguntas.length)*100).toFixed(1);
+
+let medalha="🥉 Bronze";
+
+if(percentual>=85) medalha="🥇 Ouro";
+else if(percentual>=70) medalha="🥈 Prata";
+
+document.getElementById("barra").style.width =
+percentual + "%";
+
+document.getElementById("resultado").style.display="block";
+
+document.getElementById("resultado").innerHTML = `
+<h2>Resultado Final</h2>
+
+<p><strong>Acertos:</strong>
+${acertos} de ${perguntas.length}</p>
+
+<p><strong>Aproveitamento:</strong>
+${percentual}%</p>
+
+<p class="medalha">${medalha}</p>
+`;
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
+
+}
+
+</script>
+
+</body>
+</html>

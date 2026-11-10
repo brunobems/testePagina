@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olimpíada de Literatura - O Gato de Botas</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f5f5f5;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    color:#8b0000;
+}
+
+.questao{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.questao h3{
+    margin-top:0;
+}
+
+label{
+    display:block;
+    padding:6px 0;
+    cursor:pointer;
+}
+
+.feedback{
+    margin-top:12px;
+    padding:10px;
+    border-radius:6px;
+    display:none;
+}
+
+.correta{
+    background:#d4edda;
+    color:#155724;
+}
+
+.errada{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    font-size:18px;
+    font-weight:bold;
+    background:#8b0000;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#a70000;
+}
+
+#resultado{
+    margin-top:30px;
+    padding:20px;
+    background:white;
+    border-radius:10px;
+    display:none;
+}
+
+.progress{
+    width:100%;
+    height:25px;
+    background:#ddd;
+    border-radius:15px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.bar{
+    height:100%;
+    width:0%;
+    background:#28a745;
+    transition:.5s;
+}
+
+.medalha{
+    font-size:28px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🏆 Olimpíada de Literatura<br>O Gato de Botas</h1>
+
+<div class="progress">
+<div class="bar" id="barra"></div>
+</div>
+
+<div id="quiz"></div>
+
+<button onclick="corrigir()">Concluir Prova</button>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+
+const perguntas = [
+{
+ pergunta:"Ao pedir botas e um saco, o gato demonstra principalmente:",
+ alternativas:[
+  "Vaidade",
+  "Planejamento",
+  "Medo",
+  "Curiosidade"
+ ],
+ correta:1,
+ explicacao:"O gato já possuía uma estratégia para mudar a vida de seu dono e sabia exatamente quais recursos precisaria utilizar."
+},
+
+{
+ pergunta:"O fato de o gato entregar presentes em nome do Marquês de Carrabás indica que ele pretendia:",
+ alternativas:[
+  "Ganhar fama para si mesmo",
+  "Construir uma boa reputação para seu dono",
+  "Enganar a princesa",
+  "Comprar terras"
+ ],
+ correta:1,
+ explicacao:"Os presentes ajudavam a criar uma imagem positiva e respeitável do Marquês perante o rei."
+},
+
+{
+ pergunta:"Por que o rei passou a acreditar nas histórias contadas pelo gato?",
+ alternativas:[
+  "Porque já conhecia o marquês",
+  "Porque os acontecimentos confirmavam as histórias",
+  "Porque tinha medo do gato",
+  "Porque a princesa insistiu"
+ ],
+ correta:1,
+ explicacao:"As ações planejadas pelo gato faziam parecer que todas as suas histórias eram verdadeiras."
+},
+
+{
+ pergunta:"A transformação da vida do filho do moleiro mostra que:",
+ alternativas:[
+  "Os ricos sempre vencem",
+  "A sorte resolve tudo",
+  "As oportunidades devem ser aproveitadas",
+  "A aparência não importa"
+ ],
+ correta:2,
+ explicacao:"A mudança acontece porque o protagonista aproveita as oportunidades criadas pelo gato."
+},
+
+{
+ pergunta:"O comportamento dos camponeses demonstra que eles:",
+ alternativas:[
+  "Respeitavam o marquês",
+  "Temiam as consequências de desobedecer",
+  "Queriam ganhar dinheiro",
+  "Conheciam a princesa"
+ ],
+ correta:1,
+ explicacao:"Eles obedeceram porque tinham receio das ameaças feitas pelo gato."
+},
+
+{
+ pergunta:"Qual papel o gato desempenha na narrativa?",
+ alternativas:[
+  "Vilão",
+  "Narrador",
+  "Mentor",
+  "Governante"
+ ],
+ correta:2,
+ explicacao:"O gato orienta e conduz todas as decisões importantes do protagonista."
+},
+
+{
+ pergunta:"A atitude do ogro de exibir seus poderes revela:",
+ alternativas:[
+  "Bondade",
+  "Humildade",
+  "Vaidade",
+  "Generosidade"
+ ],
+ correta:2,
+ explicacao:"A necessidade de demonstrar superioridade acaba sendo sua grande fraqueza."
+},
+
+{
+ pergunta:"Se o ogro fosse mais cauteloso, provavelmente:",
+ alternativas:[
+  "Evitaria cair na armadilha",
+  "Casaria com a princesa",
+  "Viraria rei",
+  "Expulsaria o rei"
+ ],
+ correta:0,
+ explicacao:"A desconfiança poderia impedir que o plano do gato funcionasse."
+},
+
+{
+ pergunta:"A história sugere que inteligência e riqueza:",
+ alternativas:[
+  "São sempre iguais",
+  "Podem produzir resultados semelhantes",
+  "Não possuem relação",
+  "São inúteis"
+ ],
+ correta:1,
+ explicacao:"A inteligência do gato compensa a falta de recursos financeiros."
+},
+
+{
+ pergunta:"Qual foi a principal consequência da conquista do castelo?",
+ alternativas:[
+  "O gato ficou mais famoso",
+  "O rei ganhou terras",
+  "O marquês consolidou sua posição social",
+  "Os camponeses ficaram ricos"
+ ],
+ correta:2,
+ explicacao:"O castelo serviu para validar toda a imagem construída pelo gato."
+},
+
+{
+ pergunta:"O rei forma sua opinião sobre o marquês principalmente através:",
+ alternativas:[
+  "Das aparências e evidências visíveis",
+  "Da amizade",
+  "Do passado da família",
+  "Da opinião dos camponeses"
+ ],
+ correta:0,
+ explicacao:"O rei acredita no que vê durante a viagem."
+},
+
+{
+ pergunta:"A criatividade do gato pode ser percebida porque ele:",
+ alternativas:[
+  "Possui poderes mágicos",
+  "Cria soluções incomuns para os problemas",
+  "Recebe ajuda dos soldados",
+  "É muito forte"
+ ],
+ correta:1,
+ explicacao:"O gato utiliza estratégias originais e inteligentes para alcançar seus objetivos."
+},
+
+{
+ pergunta:"O castelo pode simbolizar:",
+ alternativas:[
+  "O fracasso",
+  "A recompensa por um plano bem executado",
+  "O medo dos camponeses",
+  "A força do rei"
+ ],
+ correta:1,
+ explicacao:"Ao final da história, o castelo representa o sucesso conquistado."
+},
+
+{
+ pergunta:"A narrativa mostra que a primeira impressão:",
+ alternativas:[
+  "Nunca influencia decisões",
+  "Pode influenciar julgamentos importantes",
+  "É sempre correta",
+  "Não possui valor"
+ ],
+ correta:1,
+ explicacao:"Grande parte da opinião do rei é construída pelas aparências."
+},
+
+{
+ pergunta:"O sucesso do plano elaborado pelo gato depende principalmente de:",
+ alternativas:[
+  "Força física",
+  "Planejamento e execução",
+  "Magia",
+  "Ajuda da princesa"
+ ],
+ correta:1,
+ explicacao:"Cada etapa foi cuidadosamente preparada antes de ser executada."
+},
+
+{
+ pergunta:"A mudança de destino do protagonista acontece porque:",
+ alternativas:[
+  "Recebe um exército",
+  "Surge uma oportunidade e ela é aproveitada",
+  "Encontra um tesouro",
+  "Ganha muito dinheiro"
+ ],
+ correta:1,
+ explicacao:"Oportunidade e ação trabalham juntas ao longo de toda a história."
+},
+
+{
+ pergunta:"O ogro perdeu seu castelo porque:",
+ alternativas:[
+  "Era pobre",
+  "Foi derrotado por sua própria arrogância",
+  "Perdeu seus poderes",
+  "Foi expulso pelo rei"
+ ],
+ correta:1,
+ explicacao:"A necessidade de provar seu poder fez com que caísse na armadilha."
+},
+
+{
+ pergunta:"Ao confiar no gato, o protagonista demonstra:",
+ alternativas:[
+  "Coragem e confiança",
+  "Preguiça",
+  "Arrogância",
+  "Desinteresse"
+ ],
+ correta:0,
+ explicacao:"Mesmo sem conhecer o plano, ele decide acreditar no companheiro."
+},
+{
+ pergunta:"Qual mensagem resume melhor o conto?",
+ alternativas:[
+  "A riqueza compra felicidade",
+  "A inteligência pode transformar a realidade",
+  "Os títulos são mais importantes que o caráter",
+  "A força sempre vence"
+ ],
+ correta:1,
+ explicacao:"O principal ensinamento da história é que inteligência, criatividade e iniciativa podem gerar grandes transformações."
+},
+{
+ pergunta:"A história sugere que o verdadeiro valor de uma pessoa:",
+ alternativas:[
+  "Depende da riqueza",
+  "Depende da origem familiar",
+  "Pode ser demonstrado por suas ações",
+  "Depende do título de nobreza"
+ ],
+ correta:2,
+ explicacao:"As atitudes e capacidades têm mais importância do que títulos ou posses."
+},
+
+
+{
+ pergunta:"O filho mais novo do moleiro recebeu qual herança?",
+ alternativas:["O moinho","O asno","O gato","Uma fazenda","Um castelo"],
+ correta:2,
+ explicacao:"Enquanto os irmãos receberam bens considerados mais valiosos, o filho mais novo recebeu apenas o gato."
+},
+{
+ pergunta:"O que o gato pediu ao seu dono?",
+ alternativas:["Um cavalo e uma capa","Um saco e um par de botas","Uma espada e um escudo","Um carrinho","Um barco"],
+ correta:1,
+ explicacao:"As botas e o saco seriam fundamentais para executar o plano do gato."
+},
+{
+ pergunta:"Qual foi o primeiro animal capturado pelo gato para levar ao rei?",
+ alternativas:["Perdiz","Lebre","Raposa","Coelho","Camundongo"],
+ correta:3,
+ explicacao:"O coelho foi o primeiro presente oferecido ao rei em nome do Marquês de Carrabás."
+},
+{
+ pergunta:"Que nome o gato inventou para seu dono?",
+ alternativas:["Marquês de Monte Claro","Marquês de Carrabás","Duque Real","Senhor das Botas","Conde do Rio"],
+ correta:1,
+ explicacao:"O título de Marquês de Carrabás ajudou a construir a reputação do protagonista."
+},
+{
+ pergunta:"Onde o gato mandou seu dono tomar banho?",
+ alternativas:["No lago","No mar","No rio","Na fonte","Na cachoeira"],
+ correta:2,
+ explicacao:"O episódio do rio foi fundamental para que o rei acreditasse na história criada pelo gato."
+},
+{
+ pergunta:"O gato disse ao rei que o que havia acontecido com as roupas de seu dono?",
+ alternativas:["Foram queimadas","Ficaram molhadas","Foram perdidas","Foram roubadas","Foram vendidas"],
+ correta:3,
+ explicacao:"O gato afirmou que ladrões haviam levado as roupas de seu amo."
+},
+{
+ pergunta:"Quem se apaixona pelo Marquês de Carrabás?",
+ alternativas:["A rainha","Uma camponesa","A princesa","A filha do ogro","Nenhuma delas"],
+ correta:2,
+ explicacao:"A princesa fica encantada pelo jovem apresentado como marquês."
+},
+{
+ pergunta:"O que o gato dizia aos trabalhadores que encontrava?",
+ alternativas:["Que fugissem","Que saudassem o rei","Que dissessem que as terras eram do Marquês de Carrabás","Que construíssem um castelo","Que procurassem o ogro"],
+ correta:2,
+ explicacao:"O gato queria que o rei acreditasse que todas aquelas terras pertenciam ao marquês."
+},
+{
+ pergunta:"Em qual animal o ogro se transformou primeiro para impressionar o gato?",
+ alternativas:["Cavalo","Elefante","Lobo","Leão","Urso"],
+ correta:3,
+ explicacao:"O leão foi usado pelo ogro para demonstrar seu enorme poder."
+},
+{
+ pergunta:"Como o gato derrotou o ogro?",
+ alternativas:["Chamou soldados","Empurrou-o do castelo","Convenceu-o a virar camundongo e o comeu","Trancou-o","Envenenou-o"],
+ correta:2,
+ explicacao:"O ogro caiu na própria vaidade ao aceitar transformar-se em um animal pequeno."
+},
+{
+ pergunta:"O gato era preguiçoso?",
+ alternativas:["Verdadeiro","Falso"],
+ correta:1,
+ explicacao:"O gato era extremamente ativo e inteligente."
+},
+{
+ pergunta:"O rei gostava dos presentes que recebia?",
+ alternativas:["Verdadeiro","Falso"],
+ correta:0,
+ explicacao:"Os presentes ajudaram o gato a conquistar a confiança do rei."
+},
+{
+ pergunta:"O castelo pertencia originalmente ao ogro?",
+ alternativas:["Verdadeiro","Falso"],
+ correta:0,
+ explicacao:"O ogro era o verdadeiro dono do castelo antes da chegada do gato."
+},
+{
+ pergunta:"O Marquês recusou casar com a princesa?",
+ alternativas:["Verdadeiro","Falso"],
+ correta:1,
+ explicacao:"O final da história mostra justamente o casamento dos dois."
+},
+{
+ pergunta:"Qual é a principal moral da história?",
+ alternativas:[
+  "A força vale mais que a inteligência",
+  "Quem possui mais riquezas sempre vence",
+  "A habilidade e o engenho podem valer mais do que uma grande herança",
+  "Os reis sempre sabem a verdade",
+  "Os ogros são invencíveis"
+ ],
+ correta:2,
+ explicacao:"O conto valoriza inteligência, criatividade e inisciativa acima da riqueza material."
+},
+ 
+{
+ pergunta:"Qual mensagem está mais presente em toda a história?",
+ alternativas:["A inteligência pode transformar a realidade","A riqueza compra felicidade","Os títulos são mais importantes que o caráter","A força sempre vence"],
+ correta:0,
+ explicacao:"Toda a narrativa demonstra o poder do planejamento e da inteligência."
+},
+{
+ pergunta:"O comportamento dos camponeses demonstra que eles:",
+ alternativas:[
+  "Respeitavam o marquês",
+  "Temiam as consequências de desobedecer", 
+  "Queriam ganhar dinheiro",
+  "Conheciam a princesa"
+ ],
+ correta:1,
+ explicacao:"Eles obedeceram porque tinham receio das ameaças feitas pelo gato."
+},
+
+{
+ pergunta:"Ao entregar presentes ao rei durante vários dias, o gato pretendia:",
+ alternativas:[
+  "Conseguir dinheiro",
+  "Construir uma boa imagem do seu dono",
+  "Fazer amizade com os guardas",
+  "Ganhar um castelo"
+ ],
+ correta:1,
+ explicacao:"Os presentes ajudaram o rei a acreditar que o Marquês de Carabás era importante e rico."
+},
+
+{
+ pergunta:"A atitude do rei ao receber os presentes mostra que ele era:",
+ alternativas:[
+  "Facilmente impressionado",
+  "Muito desconfiado",
+  "Egoísta",
+  "Mal-humorado"
+ ],
+ correta:0,
+ explicacao:"O rei rapidamente passou a admirar alguém que nem conhecia pessoalmente."
+},
+
+{
+ pergunta:"O principal motivo de o gato pedir botas foi:",
+ alternativas:[
+  "Ficar elegante",
+  "Proteger as patas",
+  "Executar melhor seus planos",
+  "Imitar os nobres"
+ ],
+ correta:2,
+ explicacao:"As botas permitiam que ele se movimentasse e executasse suas estratégias com mais facilidade."
+},
+
+{
+ pergunta:"Quando o rei viu as terras e ouviu os trabalhadores falarem do Marquês de Carabás, ele concluiu que:",
+ alternativas:[
+  "O marquês era pobre",
+  "O marquês era poderoso e rico",
+  "O gato estava mentindo",
+  "As terras eram do rei"
+ ],
+ correta:1,
+ explicacao:"Todas as evidências preparadas pelo gato reforçavam essa impressão."
+},
+
+{
+ pergunta:"A maior qualidade demonstrada pelo gato durante a história foi:",
+ alternativas:[
+  "Coragem",
+  "Força física",
+  "Inteligência",
+  "Velocidade"
+ ],
+ correta:2,
+ explicacao:"Ele resolveu todos os desafios usando inteligência e planejamento."
+},
+
+{
+ pergunta:"Por que o gato conseguiu derrotar o ogro?",
+ alternativas:[
+  "Porque era mais forte",
+  "Porque recebeu ajuda do rei",
+  "Porque usou a inteligência para criar uma armadilha",
+  "Porque possuía poderes mágicos"
+ ],
+ correta:2,
+ explicacao:"O gato manipulou o ogro para que ele se transformasse em um animal pequeno."
+},
+
+{
+ pergunta:"A transformação do ogro em camundongo demonstra que ele era:",
+ alternativas:[
+  "Paciente",
+  "Arrogante e confiante demais",
+  "Bondoso",
+  "Medroso"
+ ],
+ correta:1,
+ explicacao:"Sua vaidade fez com que aceitasse demonstrar seus poderes sem desconfiar do plano."
+},
+
+{
+ pergunta:"Se o ogro não tivesse aceitado o desafio do gato, provavelmente:",
+ alternativas:[
+  "O plano ficaria mais difícil de ser realizado",
+  "O rei desistiria do passeio",
+  "Os camponeses fugiriam",
+  "O castelo desapareceria"
+ ],
+ correta:0,
+ explicacao:"A transformação em camundongo foi essencial para o sucesso do plano."
+},
+
+{
+ pergunta:"O que a história procura ensinar principalmente?",
+ alternativas:[
+  "Quem é rico sempre vence",
+  "A força física é mais importante que a inteligência",
+  "A inteligência e a criatividade ajudam a superar dificuldades",
+  "Animais não devem usar roupas"
+ ],
+ correta:2,
+ explicacao:"O conto mostra como a inteligência do gato mudou completamente o destino de seu dono."
+},
+
+{
+ pergunta:"Comparando o gato e o ogro, podemos dizer que:",
+ alternativas:[
+  "Os dois são igualmente inteligentes",
+  "O gato vence pela inteligência e o ogro perde pela arrogância",
+  "O ogro é mais esperto que o gato",
+  "Nenhum deles planeja suas ações"
+ ],
+ correta:1,
+ explicacao:"Essa oposição entre inteligência e arrogância é um dos temas centrais da história."
+},
+
+{
+ pergunta:"A mentira criada pelo gato sobre o Marquês de Carabás funcionou porque:",
+ alternativas:[
+  "Ninguém verificou as informações e tudo parecia verdadeiro",
+  "O rei já conhecia o marquês",
+  "A princesa ajudou o gato",
+  "Os trabalhadores eram amigos do jovem"
+ ],
+ correta:0,
+ explicacao:"O gato preparou cuidadosamente situações que confirmavam sua história."
+},
+{
+ pergunta:"Como o irmão caçula se sentiu ao receber apenas o gato como herança?",
+ alternativas:[
+  "Muito feliz",
+  "Triste e preocupado",
+  "Indiferente",
+  "Orgulhoso"
+ ],
+ correta:1,
+ explicacao:"Inicialmente ele acreditava que o gato não teria utilidade e ficou preocupado com seu futuro."
+},
+
+{
+ pergunta:"O que surpreendeu o jovem dono quando conheceu melhor o gato?",
+ alternativas:[
+  "O gato sabia nadar",
+  "O gato sabia cozinhar",
+  "O gato sabia falar",
+  "O gato sabia cantar"
+ ],
+ correta:2,
+ explicacao:"O jovem ficou surpreso ao descobrir que o gato conseguia falar."
+},
+
+{
+ pergunta:"O que o gato colocou dentro do saco para atrair animais?",
+ alternativas:[
+  "Farelo e capim",
+  "Peixes e pão",
+  "Milho e frutas",
+  "Pedras e galhos"
+ ],
+ correta:0,
+ explicacao:"O gato utilizou farelo e capim para atrair suas presas."
+},
+
+{
+ pergunta:"Como o rei reagia quando recebia os presentes enviados pelo gato?",
+ alternativas:[
+  "Ficava irritado",
+  "Ignorava os presentes",
+  "Ficava contente e agradecido",
+  "Mandava devolver tudo"
+ ],
+ correta:2,
+ explicacao:"Os presentes ajudaram o rei a admirar o suposto Marquês de Carrabás."
+},
+
+{
+ pergunta:"Quem acompanhava o rei na carruagem quando passaram perto do rio?",
+ alternativas:[
+  "Os irmãos do moleiro",
+  "A princesa",
+  "O ogro",
+  "Os camponeses"
+ ],
+ correta:1,
+ explicacao:"A princesa estava acompanhando o rei naquele momento."
+},
+
+{
+ pergunta:"O que o gato fez com as roupas do seu dono durante o plano do rio?",
+ alternativas:[
+  "Lavou as roupas",
+  "Escondeu as roupas",
+  "Vendeu as roupas",
+  "Costurou as roupas"
+ ],
+ correta:1,
+ explicacao:"O gato escondeu as roupas para que o plano parecesse verdadeiro."
+},
+
+{
+ pergunta:"Qual explicação o gato deu ao rei para justificar a falta de roupas do seu dono?",
+ alternativas:[
+  "As roupas haviam rasgado",
+  "Ele havia esquecido em casa",
+  "Ladrões tinham roubado as roupas",
+  "As roupas caíram no rio"
+ ],
+ correta:2,
+ explicacao:"O gato afirmou que ladrões haviam roubado as roupas do jovem."
+},
+
+{
+ pergunta:"Como o rei ajudou o jovem depois do incidente no rio?",
+ alternativas:[
+  "Deu dinheiro",
+  "Ofereceu um cavalo",
+  "Mandou trazer roupas elegantes",
+  "Convidou-o para trabalhar"
+ ],
+ correta:2,
+ explicacao:"O rei forneceu roupas nobres para o suposto marquês."
+},
+
+{
+ pergunta:"O que o gato fazia enquanto corria na frente da carruagem?",
+ alternativas:[
+  "Procurava comida",
+  "Conversava com os trabalhadores e organizava o plano",
+  "Fugia do rei",
+  "Dormia nos campos"
+ ],
+ correta:1,
+ explicacao:"O gato preparava cada etapa do plano antes da chegada do rei."
+},
+
+{
+ pergunta:"O que os trabalhadores deviam dizer quando o rei passasse?",
+ alternativas:[
+  "Que as terras pertenciam ao rei",
+  "Que as terras pertenciam ao ogro",
+  "Que as terras pertenciam ao Marquês de Carrabás",
+  "Que as terras estavam abandonadas"
+ ],
+ correta:2,
+ explicacao:"Isso ajudava a construir a falsa identidade do jovem."
+},
+
+{
+ pergunta:"O que o gato ameaçou fazer se os trabalhadores não obedecessem?",
+ alternativas:[
+  "Chamaria os soldados",
+  "Transformaria todos em ratos",
+  "Eles seriam castigados severamente",
+  "Tomaria suas terras"
+ ],
+ correta:2,
+ explicacao:"O medo fez com que todos colaborassem com o plano."
+},
+
+{
+ pergunta:"Ao ouvir os trabalhadores, o rei passou a acreditar que:",
+ alternativas:[
+  "O marquês era muito rico",
+  "O marquês era pobre",
+  "O ogro era bondoso",
+  "O gato era mágico"
+ ],
+ correta:0,
+ explicacao:"Todas as evidências reforçavam a suposta riqueza do marquês."
+},
+
+{
+ pergunta:"Qual era o poder especial do ogro?",
+ alternativas:[
+  "Controlar tempestades",
+  "Ficar invisível",
+  "Transformar-se em animais",
+  "Ler pensamentos"
+ ],
+ correta:2,
+ explicacao:"O ogro conseguia assumir a forma de diferentes animais."
+},
+
+{
+ pergunta:"Por que o gato sentiu medo quando o ogro virou leão?",
+ alternativas:[
+  "Porque acreditou que seria devorado",
+  "Porque nunca tinha visto um leão",
+  "Porque o rei chegou ao castelo",
+  "Porque perdeu as botas"
+ ],
+ correta:0,
+ explicacao:"A transformação mostrou o tamanho do poder do ogro."
+},
+
+{
+ pergunta:"Qual truque o gato usou para derrotar o ogro?",
+ alternativas:[
+  "Desafiou o ogro a virar um animal pequeno",
+  "Chamou soldados do rei",
+  "Usou uma armadilha mágica",
+  "Fez um feitiço"
+ ],
+ correta:0,
+ explicacao:"A inteligência do gato fez o ogro transformar-se em um camundongo."
+},
+
+{
+ pergunta:"O que aconteceu com o castelo depois da derrota do ogro?",
+ alternativas:[
+  "Foi destruído",
+  "Passou a pertencer ao jovem",
+  "Ficou abandonado",
+  "Foi entregue ao rei"
+ ],
+ correta:1,
+ explicacao:"O jovem tornou-se dono do castelo e das riquezas."
+},
+
+{
+ pergunta:"Como o gato recebeu o rei e a princesa no castelo?",
+ alternativas:[
+  "Com uma armadilha",
+  "Com um banquete e grande recepção",
+  "Com uma competição",
+  "Com uma caça ao tesouro"
+ ],
+ correta:1,
+ explicacao:"Tudo foi preparado para impressionar os visitantes."
+},
+
+{
+ pergunta:"O que aconteceu com o gato após ajudar seu dono?",
+ alternativas:[
+  "Voltou para a floresta",
+  "Virou um gato comum",
+  "Passou a viver confortavelmente como um grande senhor",
+  "Tornou-se guarda do rei"
+ ],
+ correta:2,
+ explicacao:"O gato também foi recompensado pelo sucesso de seus planos."
+},{
+ pergunta:"Por que o gato escolheu apresentar os presentes sempre ao rei?",
+ alternativas:[
+  "Porque queria tornar-se nobre",
+  "Porque sabia que o rei tinha influência sobre o futuro do seu dono",
+  "Porque queria morar no palácio",
+  "Porque tinha medo dos camponeses"
+ ],
+ correta:1,
+ explicacao:"O gato sabia que conquistar a confiança do rei poderia abrir oportunidades para seu dono."
+},
+
+{
+ pergunta:"A atitude do gato ao esconder as roupas do jovem mostra que ele era:",
+ alternativas:[
+  "Impulsivo",
+  "Ingênuo",
+  "Estratégico",
+  "Desorganizado"
+ ],
+ correta:2,
+ explicacao:"Cada ação fazia parte de um plano cuidadosamente elaborado."
+},
+
+{
+ pergunta:"Por que os trabalhadores acreditaram nas ameaças do gato?",
+ alternativas:[
+  "Porque conheciam o jovem",
+  "Porque temiam sofrer consequências",
+  "Porque admiravam o rei",
+  "Porque receberam dinheiro"
+ ],
+ correta:1,
+ explicacao:"Os trabalhadores cooperaram por medo das consequências anunciadas pelo gato."
+},
+
+{
+ pergunta:"O castelo do ogro era importante para o plano porque:",
+ alternativas:[
+  "Servia como prova de riqueza e poder",
+  "Era o esconderijo do rei",
+  "Guardava um tesouro mágico",
+  "Protegia os camponeses"
+ ],
+ correta:0,
+ explicacao:"Possuir um castelo reforçaria a imagem nobre criada para o protagonista."
+},
+
+{
+ pergunta:"Qual característica permitiu que o gato adaptasse seus planos durante a história?",
+ alternativas:[
+  "Flexibilidade",
+  "Timidez",
+  "Vaidade",
+  "Teimosia"
+ ],
+ correta:0,
+ explicacao:"O gato soube aproveitar cada situação para alcançar seus objetivos."
+},
+
+{
+ pergunta:"O fato de o rei não verificar as histórias do gato demonstra:",
+ alternativas:[
+  "Confiança excessiva nas aparências",
+  "Grande experiência",
+  "Conhecimento do ogro",
+  "Preocupação com os camponeses"
+ ],
+ correta:0,
+ explicacao:"O rei aceitou as evidências preparadas pelo gato sem fazer investigações."
+},
+
+{
+ pergunta:"O que torna o plano do gato diferente de uma simples sorte?",
+ alternativas:[
+  "A presença da princesa",
+  "A existência do castelo",
+  "O planejamento cuidadoso de cada etapa",
+  "A riqueza do rei"
+ ],
+ correta:2,
+ explicacao:"Os acontecimentos foram provocados pelas ações do gato e não pelo acaso."
+},
+
+{
+ pergunta:"A reação da princesa ao conhecer o marquês demonstra que:",
+ alternativas:[
+  "Ela valorizava apenas riquezas",
+  "Ela foi influenciada pela imagem apresentada ao seu redor",
+  "Ela conhecia a verdadeira história",
+  "Ela desconfiava do gato"
+ ],
+ correta:1,
+ explicacao:"A imagem criada pelo gato impactou a forma como os outros personagens viam o jovem."
+},
+
+{
+ pergunta:"Qual foi o maior risco corrido pelo gato durante seu plano?",
+ alternativas:[
+  "Ser descoberto pelo rei ou pelo ogro",
+  "Perder as botas novas",
+  "Ficar sem comida",
+  "Perder contato com os camponeses"
+ ],
+ correta:0,
+ explicacao:"Se o plano fosse descoberto, todas as etapas anteriores poderiam fracassar."
+},
+
+{
+ pergunta:"Ao final da história, o sucesso do protagonista está relacionado principalmente a:",
+ alternativas:[
+  "Sua herança",
+  "Sua força física",
+  "A combinação entre oportunidade e inteligência",
+  "Seu título de nascimento"
+ ],
+ correta:2,
+ explicacao:"A história mostra como a inteligência transformou uma pequena oportunidade em uma grande conquista."
+},{
+ pergunta:"O contraste entre o gato e o ogro representa principalmente:",
+ alternativas:[
+  "Inteligência versus arrogância",
+  "Juventude versus velhice",
+  "Riqueza versus pobreza",
+  "Cidade versus campo"
+ ],
+ correta:0,
+ explicacao:"O gato vence utilizando inteligência enquanto o ogro é derrotado pela própria vaidade."
+},
+
+{
+ pergunta:"A repetição dos presentes enviados ao rei tem o efeito de:",
+ alternativas:[
+  "Criar credibilidade gradualmente",
+  "Enriquecer o gato",
+  "Intimidar a princesa",
+  "Confundir os camponeses"
+ ],
+ correta:0,
+ explicacao:"A confiança do rei é construída aos poucos por meio de ações repetidas."
+},
+
+{
+ pergunta:"Qual elemento é mais importante para o sucesso da identidade do Marquês de Carrabás?",
+ alternativas:[
+  "O castelo",
+  "A aparência de coerência entre os fatos",
+  "As roupas elegantes",
+  "A beleza da princesa"
+ ],
+ correta:1,
+ explicacao:"As evidências preparadas pelo gato pareciam confirmar continuamente sua narrativa."
+},
+
+{
+ pergunta:"A derrota do ogro sugere que o excesso de autoconfiança pode:",
+ alternativas:[
+  "Fortalecer qualquer líder",
+  "Levar a decisões imprudentes",
+  "Atrair aliados",
+  "Garantir sucesso"
+ ],
+ correta:1,
+ explicacao:"A confiança exagerada do ogro o impediu de perceber a armadilha."
+},
+
+{
+ pergunta:"A história sugere que reputação é algo que:",
+ alternativas:[
+  "Pode ser construída pelas percepções das pessoas",
+  "Nasce pronta",
+  "Não influencia decisões",
+  "Só depende da riqueza"
+ ],
+ correta:0,
+ explicacao:"Grande parte do enredo envolve a construção de uma imagem pública."
+}
+];
+
+const quiz = document.getElementById("quiz");
+
+perguntas.forEach((q,index)=>{
+
+
+
+let html = `
+<div class="questao">
+<h3>Questão ${index+1}</h3>
+<p>${q.pergunta}</p>
+`;
+
+q.alternativas.forEach((alt,i)=>{
+html += `
+<label>
+<input type="radio" name="q${index}" value="${i}">
+${String.fromCharCode(65+i)}) ${alt}
+</label>`;
+});
+
+html += `
+<div id="fb${index}" class="feedback"></div>
+</div>
+`;
+
+quiz.innerHTML += html;
+
+});
+
+function corrigir(){
+
+let acertos = 0;
+
+perguntas.forEach((q,index)=>{
+
+
+
+const resposta =
+document.querySelector(`input[name="q${index}"]:checked`);
+
+const fb =
+document.getElementById(`fb${index}`);
+
+if(resposta){
+
+if(Number(resposta.value) === q.correta){
+
+acertos++;
+
+fb.className="feedback correta";
+
+fb.innerHTML=
+`✅ Correta!<br><br>${q.explicacao}`;
+
+}else{
+
+fb.className="feedback errada";
+
+fb.innerHTML=
+`❌ Resposta correta:
+<b>${String.fromCharCode(65+q.correta)}) ${q.alternativas[q.correta]}</b>
+<br><br>${q.explicacao}`;
+
+}
+
+}else{
+
+fb.className="feedback errada";
+
+fb.innerHTML=
+`❌ Questão não respondida.<br>
+Resposta correta:
+<b>${String.fromCharCode(65+q.correta)}) ${q.alternativas[q.correta]}</b>
+<br><br>${q.explicacao}`;
+}
+
+fb.style.display="block";
+
+});
+
+const percentual =
+((acertos/perguntas.length)*100).toFixed(1);
+
+let medalha="🥉 Bronze";
+
+if(percentual>=85) medalha="🥇 Ouro";
+else if(percentual>=70) medalha="🥈 Prata";
+
+document.getElementById("barra").style.width =
+percentual + "%";
+
+document.getElementById("resultado").style.display="block";
+
+document.getElementById("resultado").innerHTML = `
+<h2>Resultado Final</h2>
+
+<p><strong>Acertos:</strong>
+${acertos} de ${perguntas.length}</p>
+
+<p><strong>Aproveitamento:</strong>
+${percentual}%</p>
+
+<p class="medalha">${medalha}</p>
+`;
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
+
+}
+
+</script>
+
+</body>
+</html>
